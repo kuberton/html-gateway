@@ -1,6 +1,9 @@
 const express = require('express')
 const app = express()
-const port = 3000
+const PORT = 3000
+const API_PRODUCTS_URL = process.env.API_PRODUCTS_URL
+const API_BASKET_URL = process.env.API_BASKET_URL
+const API_PAYMENT_URL = process.env.API_PAYMENT_URL
 
 app.set('view engine', 'ejs')
 
@@ -26,4 +29,4 @@ app.get('/cart/:id', (req, res) => res.render('cart'))
 
 app.get('**', (req, res) => res.render('404'))
 
-app.listen(port, () => console.log(`app listening on port ${port}!`))
+app.listen(PORT, () => console.log(`app listening on port ${PORT}!`))
