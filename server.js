@@ -31,7 +31,7 @@ app.get('/cart/:id', (req, res) => res.render('cart'))
 app.get('/debug', (req, res) => {
     axios.get(API_PAYMENT_URL).then(res => {
         res.send(JSON.stringify(res))
-    })
+    }).catch(console.log)
 })
 
 app.get('**', (req, res) => res.render('404'))
