@@ -82,9 +82,9 @@ app.get('/cart', (req, res) => {
   }) => data)
 
   getAllProductsFromBasket().then(products => {
-    const totalCost = products.reduce((acc, p) => {
+    const totalCost = products ? products.reduce((acc, p) => {
       return acc += p.price
-    }, 0)
+    }, 0) : 0
     
     res.render('cart', {
       products,
