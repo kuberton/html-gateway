@@ -83,5 +83,5 @@ spec:
   selector:
     app: html-gateway
   type: LoadBalancer
-  # loadBalancerIP: 35.206.133.145
+  loadBalancerIP: 34.76.55.224
   sessionAffinity: ClientIP
