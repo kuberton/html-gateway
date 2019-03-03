@@ -2,7 +2,6 @@ const express = require("express");
 const app = express();
 const axios = require("axios");
 const cookieParser = require('cookie-parser');
-const nanoid = require('nanoid')
 const bodyParser = require('body-parser')
 
 const PORT = 3000;
@@ -17,7 +16,7 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded());
 
 app.use((req, res, next) => {
-  if (!req.cookies.token) res.cookie('token', nanoid(), {
+  if (!req.cookies.token) res.cookie('token', Date.now(), {
     httpOnly: true
   })
   next()
