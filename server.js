@@ -24,7 +24,7 @@ app.use((req, res, next) => {
 const redirectToErrorPage = (e, res) => res.render('error', { error: e })
 
 app.get("/", (req, res) => {
-  const getAllProducts = () => axios.get(`http://${API_PRODUCTS_URL}/v1/`).then(({ data }) => data)
+  const getAllProducts = () => axios.get(`http://${API_PRODUCTS_URL}/v1/products`).then(({ data }) => data)
 
   getAllProducts().then(products => res.render("home", {
     products
