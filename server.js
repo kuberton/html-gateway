@@ -32,17 +32,12 @@ app.get("/", (req, res) => {
 })
 
 app.get("/product/:id", (req, res) => {
-  const product = {
-    name: "foo",
-    price: 100,
-    descr: "lorem ipsum dolorem",
-    id: "XYZ",
-    photo: "https://images.unsplash.com/photo-1551334741-0f11da38e980?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
-  };
+  const getProductData = axios.get(`http://${API_PRODUCTS_URL}/v1/products/${req.params.id}`).then(({ data }) => data)
   
-  res.render("product", {
+  getProductData().then(product => res.render("product", {
     product
-  });
+  })).catch(e => redirectToErrorPage(e, res))
+
 });
 
 app.get("/error", (req, res) => res.render("error"));
