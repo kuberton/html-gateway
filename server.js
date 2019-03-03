@@ -29,10 +29,9 @@ app.get('/order/:id', (req, res) => res.render('order'))
 app.get('/cart/:id', (req, res) => res.render('cart'))
 
 app.get('/debug', (req, res) => {
-    axios.get(`http://${API_PAYMENT_URL}`).then(res => {
-        console.log(res)
-        res.send(res)
-    }).catch(console.log)
+    axios.get(`http://${API_PAYMENT_URL}`).then(({ data }) => {
+        res.render('debug', { data })
+    }).catch(e => res.render('error', { error }))
 })
 
 app.get('**', (req, res) => res.render('404'))
