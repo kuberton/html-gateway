@@ -117,11 +117,11 @@ app.post('/payment', (req, res) => {
     }
   }).then(({data}) => {
     return res.redirect('/success')
-  })
+  }).catch(e => redirectToErrorPage(e, res))
 })
 
 app.get('/success', (req, res) => {
-  res.render("success");
+  res.render("order");
 })
 
 app.get("**", (req, res) => res.render("404"));
