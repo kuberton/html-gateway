@@ -82,28 +82,17 @@ app.get('/cart', (req, res) => {
     data = []
   }) => data)
 
-  const products = [
-    { uid: 1, name: 'foo', price: 300, quantity: 2 },
-    { uid: 1, name: 'foo', price: 12, quantity: 2 }
-  ]
-
-  const totalCost = products.reduce((acc, p) => {
-    return acc += p.price
-  }, 0)
-
-  res.render('cart', {
-    products,
-    totalCost
-  })
-
   getAllProductsFromBasket().then(products => {
+    const totalCost = products.reduce((acc, p) => {
+      return acc += p.price
+    }, 0)
+    
     res.render('cart', {
-      products
+      products,
+      totalCost
     })
   }).catch(e => redirectToErrorPage(e, res))
 })
-
-app.get('/order', (req, res) => res.render('order'))
 
 app.post('/payment', (req, res) => {
   // TODO: extract info from req.body
@@ -121,7 +110,7 @@ app.post('/payment', (req, res) => {
 })
 
 app.get('/success', (req, res) => {
-  res.render("success");
+  res.render("order");
 })
 
 app.get("**", (req, res) => res.render("404"));
