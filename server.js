@@ -105,6 +105,25 @@ app.get('/cart', (req, res) => {
 
 app.get('/order', (req, res) => res.render('order'))
 
+app.post('/payment', (req, res) => {
+  // TODO: extract info from req.body
+  axios.post(`http://${API_PAYMENT_URL}/v1/pay`, {
+    "cardNumber": "1234123412341234",
+    "cvvCode": "123",
+    "expirationDate": "date"
+  }, {
+    headers: {
+      'X-Auth': req.cookies.token
+    }
+  }).then(({data}) => {
+    return res.redirect('/success')
+  })
+})
+
+app.get('/success', (req, res) => {
+  res.render("success");
+})
+
 app.get("**", (req, res) => res.render("404"));
 
 app.listen(PORT, () => console.log(`app listening on port ${PORT}!`));
