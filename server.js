@@ -58,7 +58,7 @@ app.get("/product/:id", (req, res) => {
 app.get("/order/:id", (req, res) => res.render("order"));
 
 app.post('/add-new-product', (req, res) => {
-  const addNewProductToBasket = () => axios.get(`${BASKET_SERVICE_HOST}/v1/basket`, {
+  const addNewProductToBasket = () => axios.get(`${API_BASKET_URL}/v1/basket`, {
     header: {
       'X-Auth': req.cookies.token
     }
@@ -67,7 +67,7 @@ app.post('/add-new-product', (req, res) => {
 })
 
 app.get('/cart', (req, res) => {
-  const getAllProductsFromBasket = () => axios.get(`${BASKET_SERVICE_HOST}/v1/basket`).then(({
+  const getAllProductsFromBasket = () => axios.get(`${API_BASKET_URL}/v1/basket`).then(({
     data = []
   }) => data)
 
@@ -77,21 +77,6 @@ app.get('/cart', (req, res) => {
     })
   }).catch(e => redirectToErrorPage(e, res))
 })
-
-app.get("/debug", (req, res) => {
-  axios
-    .get(`http://${API_PAYMENT_URL}`)
-    .then(({
-      data
-    }) => {
-      res.render("debug", {
-        data
-      });
-    })
-    .catch(e => res.render("error", {
-      error
-    }));
-});
 
 app.get("**", (req, res) => res.render("404"));
 
