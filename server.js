@@ -29,7 +29,7 @@ app.get('/order/:id', (req, res) => res.render('order'))
 app.get('/cart/:id', (req, res) => res.render('cart'))
 
 app.get('/debug', (req, res) => {
-    axios.get(API_PAYMENT_URL).then(res => {
+    axios.get(`http://${API_PAYMENT_URL}`).then(res => {
         res.send(JSON.stringify(res))
     }).catch(console.log)
 })
