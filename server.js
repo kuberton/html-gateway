@@ -58,7 +58,7 @@ app.get("/product/:id", (req, res) => {
 app.get("/order/:id", (req, res) => res.render("order"));
 
 app.post('/add-new-product', (req, res) => {
-  const addNewProductToBasket = () => axios.get(`${API_BASKET_URL}/v1/basket`, {
+  const addNewProductToBasket = () => axios.get(`http://${API_BASKET_URL}/v1/basket`, {
     header: {
       'X-Auth': req.cookies.token
     }
@@ -67,7 +67,7 @@ app.post('/add-new-product', (req, res) => {
 })
 
 app.get('/cart', (req, res) => {
-  const getAllProductsFromBasket = () => axios.get(`${API_BASKET_URL}/v1/basket`).then(({
+  const getAllProductsFromBasket = () => axios.get(`http://${API_BASKET_URL}/v1/basket`).then(({
     data = []
   }) => data)
 
