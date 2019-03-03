@@ -1,5 +1,5 @@
-{{ define "order" }}
-    {{ template "header" . }}
+<% include header %>
+
 
     <main role="main">
         <div class="py-5">
@@ -22,16 +22,10 @@
                     <a class="btn btn-primary" href="/" role="button">Browse other products &rarr; </a>
                     </div>
                 </div>
-                <hr/>
-
-                {{ if $.recommendations }}
-                <div class="row mt-5 py-2">
-                    {{ template "recommendations" $.recommendations }}
-                </div>
-                {{ end }}
+                <br /><br />
             </div>
         </div>
     </main>
 
-    {{ template "footer" . }}
-{{ end }}
+
+<% include footer %>

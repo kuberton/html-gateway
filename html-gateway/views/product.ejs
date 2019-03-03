@@ -1,5 +1,4 @@
-{{ define "product" }}
-    {{ template "header" . }}
+    <% include header %>
 
     <main role="main">
         <div class="py-5">
@@ -7,18 +6,18 @@
                 <div class="row">
                     <div class="col-12 col-lg-5">
                             <img class="img-fluid border" style="width: 100%;"
-                            src="{{$.product.Item.Picture}}" />
+                            src="<%= product.photo %>" />
                     </div>
                     <div class="col-12 col-lg-7">
-                            <h2>{{$.product.Item.Name}}</h2>
+                            <h2><%= product.name %></h2>
                             
                             <p class="text-muted">
-                                {{ renderMoney $.product.Price}}
+                                <%= product.price %>₴
                             </p>
                             <hr/>
                             <p>
                                 <h6>Product Description:</h6>
-                                {{$.product.Item.Description}}
+                                <%= product.descr %>
                             </p>
                             <hr/>
 
@@ -41,16 +40,10 @@
                             </form>
                     </div>
                 </div>
-                
-                {{ if $.recommendations}}
-                    <hr/>
-                    {{ template "recommendations" $.recommendations }}
-                {{ end }}
-                
-                {{ with $.ad }}{{ template "text_ad" . }}{{ end}}
+    
             </div>
         </div>
     
     </main>
-    {{ template "footer" . }}
-{{ end }}
+    
+    <% include footer %>
