@@ -23,11 +23,11 @@
                     </div>
                     <hr>
                     
-                    {{ range $.items }}
+                    <% products.forEach(function(p) { %>
                     <div class="row pt-2 mb-2">
                         <div class="col text-right">
-                                <a href="/product/{{.Item.Id}}"><img class="img-fluid" style="width: auto; max-height: 60px;"
-                                    src="{{.Item.Picture}}" /></a>
+                                <a href="/product/<% p.uid %>"><img class="img-fluid" style="width: auto; max-height: 60px;"
+                                    src="<% p.name %>" /></a>
                         </div>
                         <div class="col align-middle">
                             <strong>{{.Item.Name}}</strong><br/>

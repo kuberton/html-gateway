@@ -6,8 +6,8 @@ const nanoid = require('nanoid')
 const bodyParser = require('body-parser')
 
 const PORT = 3000;
-const API_PRODUCTS_URL = process.env.PRODUCTS_SERVICE_HOST;
-const API_BASKET_URL = process.env.BASKET_SERVICE_HOST;
+const API_PRODUCTS_URL = process.env.PRODUCTS_SERVICE_HOST || '34.76.34.160';
+const API_BASKET_URL = process.env.BASKET_SERVICE_HOST || '34.76.59.35';
 const API_PAYMENT_URL = process.env.PAYMENTS_SERVICE_HOST;
 
 app.set("view engine", "ejs");
@@ -58,16 +58,27 @@ app.get("/product/:id", (req, res) => {
 app.get("/order/:id", (req, res) => res.render("order"));
 
 app.post('/add-new-product', (req, res) => {
-  const addNewProductToBasket = () => axios.get(`http://${API_BASKET_URL}/v1/basket`, {
-    header: {
+  const { uid: productId, quantity } = req.body
+
+  const addNewProductToBasket = () => axios.put(`http://${API_BASKET_URL}/v1/basket`, {
+    headers: {
       'X-Auth': req.cookies.token
+    },
+    data: {
+      productId,
+      quantity
     }
   })
+
   addNewProductToBasket().then(() => res.redirect('/cart')).catch(e => redirectToErrorPage(e, res))
 })
 
 app.get('/cart', (req, res) => {
-  const getAllProductsFromBasket = () => axios.get(`http://${API_BASKET_URL}/v1/basket`).then(({
+  const getAllProductsFromBasket = () => axios.get(`http://${API_BASKET_URL}/v1/basket`, {
+    headers: {
+      'X-Auth': req.cookies.token
+    }
+  }).then(({
     data = []
   }) => data)
 
