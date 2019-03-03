@@ -17,31 +17,19 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded());
 
 app.use((req, res, next) => {
-  if (!req.cookies.token) res.cookie('token', nanoid())
+  if (!req.cookies.token) res.cookie('token', nanoid(), { httpOnly: true })
   next()
 })
 
 const redirectToErrorPage = (e, res) => res.render('error', { error: e })
 
 app.get("/", (req, res) => {
-  const products = [{
-      name: "foo",
-      price: 100,
-      id: "XYZ",
-      photo: "https://images.unsplash.com/photo-1551334741-0f11da38e980?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
-    },
-    {
-      name: "bar",
-      price: 100,
-      id: "ZYZ",
-      photo: "https://images.unsplash.com/photo-1551334741-0f11da38e980?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
-    }
-  ];
+  const getAllProducts = () => axios.get(`http://${API_PRODUCTS_URL}/v1/`).then(({ data }) => data)
 
-  res.render("home", {
+  getAllProducts().then(products => res.render("home", {
     products
-  });
-});
+  })).catch(e => redirectToErrorPage(e, res))
+})
 
 app.get("/product/:id", (req, res) => {
   const product = {
@@ -51,6 +39,7 @@ app.get("/product/:id", (req, res) => {
     id: "XYZ",
     photo: "https://images.unsplash.com/photo-1551334741-0f11da38e980?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
   };
+  
   res.render("product", {
     product
   });
