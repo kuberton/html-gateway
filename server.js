@@ -2,9 +2,9 @@ const express = require('express')
 const app = express()
 const axios = require('axios')
 const PORT = 3000
-const API_PRODUCTS_URL = process.env.API_PRODUCTS_URL
-const API_BASKET_URL = process.env.API_BASKET_URL
-const API_PAYMENT_URL = process.env.API_PAYMENT_URL
+const API_PRODUCTS_URL = process.env.PRODUCTS_SERVICE_HOST
+const API_BASKET_URL = process.env.BASKET_SERVICE_HOST
+const API_PAYMENT_URL = process.env.PAYMENTS_SERVICE_HOST
 
 app.set('view engine', 'ejs')
 
