@@ -90,8 +90,18 @@ app.get('/cart', (req, res) => {
 })
 
 app.post('/payment', (req, res) => {
-  // TODO: post to payment service
-  return res.redirect('/success')
+  // TODO: extract info from req.body
+  axios.post(`http://${API_PAYMENT_URL}/v1/pay`, {
+    "cardNumber": "1234123412341234",
+    "cvvCode": "123",
+    "expirationDate": "date"
+  }, {
+    headers: {
+      'X-Auth': req.cookies.token
+    }
+  }).then(({data}) => {
+    return res.redirect('/success')
+  })
 })
 
 app.get('/success', (req, res) => {
