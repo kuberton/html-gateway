@@ -32,8 +32,11 @@ app.get("/", (req, res) => {
 })
 
 app.get("/product/:id", (req, res) => {
-  const getProductData = axios.get(`http://${API_PRODUCTS_URL}/v1/products/${req.params.id}`).then(({ data }) => data)
-  
+  const { id } = req.params
+  if (!id) return redirectToErrorPage('id must be a number', res)
+
+  const getProductData = () => axios.get(`http://${API_PRODUCTS_URL}/v1/products/${id}`).then(({ data }) => data)
+
   getProductData().then(product => res.render("product", {
     product
   })).catch(e => redirectToErrorPage(e, res))
