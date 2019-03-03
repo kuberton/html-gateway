@@ -11,7 +11,7 @@
                 <% } else { %>
                     <div class="row mb-3 py-2">
                         <div class="col">
-                            <h3><% products.length %> items in your Shopping Cart</h3>
+                            <h3><%= products.length %> items in your Shopping Cart</h3>
                         </div>
                         <div class="col text-right">
                             <form method="POST" action="/cart/empty">
@@ -27,28 +27,25 @@
                     <div class="row pt-2 mb-2">
                         <div class="col text-right">
                                 <a href="/product/<% p.uid %>"><img class="img-fluid" style="width: auto; max-height: 60px;"
-                                    src="<% p.name %>" /></a>
+                                    src="<%= p.image %>" /></a>
                         </div>
                         <div class="col align-middle">
-                            <strong>{{.Item.Name}}</strong><br/>
-                            <small class="text-muted">SKU: #{{.Item.Id}}</small>
+                            <strong><%= p.name %></strong><br/>
                         </div>
                         <div class="col text-left">
-                            Qty: {{.Quantity}}<br/>
+                            Qty: <%= p.quantity %><br/>
                             <strong>
-                                {{ renderMoney .Price}}
+                                <%= p.price %>₴
                             </strong>
                         </div>
                     </div>
-                    {{ end }} <!-- range $.items-->
+                    <% }) } %>
+
                     <div class="row pt-2 my-3">
                         <div class="col text-center">
-                            <p class="text-muted my-0">Shipping Cost: <strong>{{ renderMoney .shipping_cost }}</strong></p>
-                            Total Cost: <strong>{{ renderMoney .total_cost }}</strong>
+                            Total Cost: <strong><%= totalCost %>₴</strong>
                         </div>
                     </div>
-
-                    <% } %>
 
                     <hr/>
                     <div class="row py-3 my-2">
@@ -122,11 +119,14 @@
                                             <label for="credit_card_expiration_year">Year</label>
                                             <select name="credit_card_expiration_year" id="credit_card_expiration_year"
                                                 class="form-control">
-                                            {{ range $i, $y := $.expiration_years}}<option value="{{$y}}"
-                                                {{if eq $i 1 -}}
-                                                    selected="selected"
-                                                {{- end}}
-                                            >{{$y}}</option>{{end}}
+                                                <option value="2019"></option>
+                                                <option value="2020"></option>
+                                                <option value="2021"></option>
+                                                <option value="2022"></option>
+                                                <option value="2023"></option>
+                                                <option value="2024"></option>
+                                                <option value="2025"></option>
+                                                <option value="2026"></option>
                                             </select>
                                         </div>
                                     <div class="col-md-2 mb-3">
@@ -141,13 +141,7 @@
                             </form>
                         </div>
                     </div>
-                {{ end }} <!-- end if $.items -->
-
-                {{ if $.recommendations}}
-                    <hr/>
-                    {{ template "recommendations" $.recommendations }}
-                {{ end }}
-
+            
             </div>
         </div>
     </main>
