@@ -89,6 +89,19 @@ app.get('/cart', (req, res) => {
   }).catch(e => redirectToErrorPage(e, res))
 })
 
+app.get('/payment', (req, res) => {
+  res.render("payment");
+})
+
+app.post('/payment', (req, res) => {
+  // TODO: post to payment service
+  return res.redirect('/success')
+})
+
+app.get('/success', (req, res) => {
+  res.render("success");
+})
+
 app.get("**", (req, res) => res.render("404"));
 
 app.listen(PORT, () => console.log(`app listening on port ${PORT}!`));
