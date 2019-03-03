@@ -106,18 +106,21 @@ app.get('/cart', (req, res) => {
 app.get('/order', (req, res) => res.render('order'))
 
 app.post('/payment', (req, res) => {
-  // TODO: extract info from req.body
+  const { credit_card_number, credit_card_cvv, credit_card_expiration_month, credit_card_expiration_year} = req.body
   axios.post(`http://${API_PAYMENT_URL}/v1/pay`, {
-    "cardNumber": "1234123412341234",
-    "cvvCode": "123",
-    "expirationDate": "date"
+    "cardNumber": credit_card_number,
+    "cvvCode": credit_card_cvv,
+    "expirationDate": `${credit_card_expiration_month}/${credit_card_expiration_year}`
   }, {
     headers: {
       'X-Auth': req.cookies.token
     }
   }).then(({data}) => {
     return res.redirect('/success')
-  }).catch(e => redirectToErrorPage(e, res))
+  }).catch(e => {
+    console.log('ERROR', e)
+    redirectToErrorPage(e, res)
+  })
 })
 
 app.get('/success', (req, res) => {
