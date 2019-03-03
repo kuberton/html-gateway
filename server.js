@@ -57,19 +57,22 @@ app.get("/product/:id", (req, res) => {
 app.get("/order/:id", (req, res) => res.render("order"));
 
 app.post('/add-new-product', (req, res) => {
-  const { uid: productId, quantity } = req.body
+  const { product_id: productId, quantity } = req.body
 
-  const addNewProductToBasket = () => axios.put(`http://${API_BASKET_URL}/v1/basket`, {
+  const addNewProductToBasket = () => axios.put(`http://${API_BASKET_URL}/v1/basket`,  {
+    productId,
+    quantity
+  },{
     headers: {
-      'X-Auth': req.cookies.token
-    },
-    data: {
-      productId,
-      quantity
+      'X-Auth': req.cookies.token,
+      'Content-Type': 'application/json'
     }
   })
 
-  addNewProductToBasket().then(() => res.redirect('/cart')).catch(e => redirectToErrorPage(e, res))
+  addNewProductToBasket().then(() => res.redirect('/cart')).catch(e => {
+    console.log(e);
+    redirectToErrorPage(e, res)
+  })
 })
 
 app.get('/cart', (req, res) => {
@@ -81,8 +84,8 @@ app.get('/cart', (req, res) => {
     data = []
   }) => data)
 
-  getAllProductsFromBasket().then(products => {
-    const totalCost = products ? products.reduce((acc, p) => {
+  getAllProductsFromBasket().then(({ basketEntries: products }) => {
+    const totalCost = products ? (products || []).reduce((acc, p) => {
       return acc += p.price
     }, 0) : 0
     
