@@ -30,22 +30,17 @@
                                     src="<%= p.image %>" /></a>
                         </div>
                         <div class="col align-middle">
-                            <strong><%= p.name %></strong><br/>
+                            product id:
+                            <strong><%= p.productId %></strong><br/>
                         </div>
                         <div class="col text-left">
                             Qty: <%= p.quantity %><br/>
-                            <strong>
-                                <%= p.price %>₴
-                            </strong>
+                            
                         </div>
                     </div>
                     <% }) } %>
 
-                    <div class="row pt-2 my-3">
-                        <div class="col text-center">
-                            Total Cost: <strong><%= totalCost %>₴</strong>
-                        </div>
-                    </div>
+
 
                     <hr/>
                     <div class="row py-3 my-2">
