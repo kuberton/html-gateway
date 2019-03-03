@@ -17,14 +17,22 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded());
 
 app.use((req, res, next) => {
-  if (!req.cookies.token) res.cookie('token', nanoid(), { httpOnly: true })
+  if (!req.cookies.token) res.cookie('token', nanoid(), {
+    httpOnly: true
+  })
   next()
 })
 
-const redirectToErrorPage = (e, res) => res.render('error', { error: e })
+const redirectToErrorPage = (e, res) => res.render('error', {
+  error: e
+})
+
+app.get("/error", (req, res) => res.render("error"));
 
 app.get("/", (req, res) => {
-  const getAllProducts = () => axios.get(`http://${API_PRODUCTS_URL}/v1/products`).then(({ data }) => data)
+  const getAllProducts = () => axios.get(`http://${API_PRODUCTS_URL}/v1/products`).then(({
+    data
+  }) => data)
 
   getAllProducts().then(products => res.render("home", {
     products
@@ -32,10 +40,14 @@ app.get("/", (req, res) => {
 })
 
 app.get("/product/:id", (req, res) => {
-  const { id } = req.params
+  const {
+    id
+  } = req.params
   if (!id || isNaN(id)) return redirectToErrorPage('id must be a number', res)
 
-  const getProductData = () => axios.get(`http://${API_PRODUCTS_URL}/v1/products/${id}`).then(({ data }) => data)
+  const getProductData = () => axios.get(`http://${API_PRODUCTS_URL}/v1/products/${id}`).then(({
+    data
+  }) => data)
 
   getProductData().then(product => res.render("product", {
     product
@@ -43,18 +55,26 @@ app.get("/product/:id", (req, res) => {
 
 });
 
-app.get("/error", (req, res) => res.render("error"));
-
 app.get("/order/:id", (req, res) => res.render("order"));
 
-app.post('/cart', (req, res) => {
-  const addNewProductToBasket = () => new Promise(resolve => setTimeout(resolve, 1000))
-  const getAllProductsFromBasket = () => new Promise(resolve => setTimeout(resolve, 1000))
+app.post('/add-new-product', (req, res) => {
+  const addNewProductToBasket = () => axios.get(`${BASKET_SERVICE_HOST}/v1/basket`, {
+    header: {
+      'X-Auth': req.cookies.token
+    }
+  })
+  addNewProductToBasket().then(() => res.redirect('/cart')).catch(e => redirectToErrorPage(e, res))
+})
 
-  addNewProductToBasket().then(() => {
-    getAllProductsFromBasket().then(products => {
-      res.render('cart', { products })
-    }).catch(e => redirectToErrorPage(e, res))
+app.get('/cart', (req, res) => {
+  const getAllProductsFromBasket = () => axios.get(`${BASKET_SERVICE_HOST}/v1/basket`).then(({
+    data = []
+  }) => data)
+
+  getAllProductsFromBasket().then(products => {
+    res.render('cart', {
+      products
+    })
   }).catch(e => redirectToErrorPage(e, res))
 })
 

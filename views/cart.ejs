@@ -4,17 +4,14 @@
     <main role="main">
         <div class="py-5">
             <div class="container bg-light py-3 px-lg-5 py-lg-5">
-                {{ if eq (len $.items) 0 }}
+                <% if (!products.length) { %>
                     <h3>Your shopping cart is empty!</h3>
                     <p>Items you add to your shopping cart will appear here.</p>
                     <a class="btn btn-primary" href="/" role="button">Browse Products &rarr; </a>
-                {{ else }}
-
+                <% } else { %>
                     <div class="row mb-3 py-2">
                         <div class="col">
-                            <h3>{{ len $.items }} item
-                                {{- if gt (len $.items) 1}}s{{end}}
-                                in your Shopping Cart</h3>
+                            <h3><% products.length %> items in your Shopping Cart</h3>
                         </div>
                         <div class="col text-right">
                             <form method="POST" action="/cart/empty">
@@ -50,6 +47,8 @@
                             Total Cost: <strong>{{ renderMoney .total_cost }}</strong>
                         </div>
                     </div>
+
+                    <% } %>
 
                     <hr/>
                     <div class="row py-3 my-2">
